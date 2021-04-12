@@ -3,12 +3,24 @@ using System.Text;
 
 namespace hashes
 {
-	public class GhostsTask : 
-		IFactory<Document>, IFactory<Vector>, IFactory<Segment>, IFactory<Cat>, IFactory<Robot>, 
+	public class GhostsTask :
+		IFactory<Document>, IFactory<Vector>, IFactory<Segment>, IFactory<Cat>, IFactory<Robot>,
 		IMagic
 	{
+		static byte[] array = { 2, 4, 5 };
+		Cat cat = new Cat("Муська", "Мэйнкун", new DateTime());
+		Document document = new Document("Text", Encoding.UTF8, array);
+		Robot robot = new Robot("Id", 1);
+		Segment segment = new Segment(new Vector(1, 1), new Vector(2, 2));
+		Vector vector = new Vector(1, 1);
+
 		public void DoMagic()
 		{
+			cat.Rename("Васька");
+			array[1]++;
+			Robot.BatteryCapacity--;
+			segment.End.Add(new Vector(2, 1));
+			vector.Add(new Vector(1, 1));
 		}
 
 		// Чтобы класс одновременно реализовывал интерфейсы IFactory<A> и IFactory<B> 
@@ -18,14 +30,27 @@ namespace hashes
 
 		Vector IFactory<Vector>.Create()
 		{
-			throw new NotImplementedException();
+			return vector;
 		}
 
 		Segment IFactory<Segment>.Create()
 		{
-			throw new NotImplementedException();
+			return segment;
 		}
 
-		// И так даллее по аналогии...
+		Document IFactory<Document>.Create()
+		{
+			return document;
+		}
+
+		Cat IFactory<Cat>.Create()
+		{
+			return cat;
+		}
+
+		Robot IFactory<Robot>.Create()
+		{
+			return robot;
+		}
 	}
 }
